@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.gini.model.User;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.config.KafkaListenerContainerFactory;
+import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Component;
 public record Consumer(
         ObjectMapper objectMapper,
         ServiceTest serviceTest
+     //   KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>>
+      //          kafkaListenerContainerFactory
 ) {
 
     @KafkaListener(
@@ -23,6 +27,7 @@ public record Consumer(
 
         try {
 
+         //   kafkaListenerContainerFactory.toString();
             var user = objectMapper.readValue(record.value(), User.class);
             serviceTest.doSomething(user);
 
